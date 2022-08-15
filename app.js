@@ -1,7 +1,9 @@
 const { inquirerMenu,
         pausa,
         readInput,
-        listadoTareasBorrar } = require('./helpers/inquirer');
+        listadoTareasBorrar,
+        confirm,
+        listadoCheckBox } = require('./helpers/inquirer');
 const {saveBD,
         readDB
       } = require('./helpers/saveArchive');
@@ -37,10 +39,17 @@ const main = async() => {
             case '4':
                 tareas.listadoPendienteCompletado(false);
                 break;
+            case '5':
+                const ids = await listadoCheckBox(tareas.listadoArr);
+                tareas.toggleCompletadas(ids);
+                console.log(ids);
+                break;
             case '6':
-                const id = await listadoTareasBorrar(tareasDB);
+                const id = await listadoTareasBorrar(tareas.listadoArr);
                 // TODO: preguntar si desea borrar
-                console.log(id);
+                const ok = await confirm('¿Esta seguro de borrar la tarea?');
+                if (ok) tareas.deleteTarea(id);
+                console.log(ok);
                 break;
         }
 
