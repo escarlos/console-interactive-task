@@ -67,7 +67,7 @@ class Tareas{
 
                 if(completadaEn !== null){
                     index += 1;
-                    console.log(`${ (index + '.').green } ${desc} :: ${completadaEn}`);
+                    console.log(`${ (index + '.').green } ${desc} :: ${completadaEn.green}`);
                 }
             }else{
 
@@ -78,6 +78,26 @@ class Tareas{
             }
             
         });
+    }
+
+    toggleCompletadas( ids = []){
+
+        ids.forEach( id => {
+
+            const tareas = this._listado[id];
+            if (!tareas.completadaEn){
+                tareas.completadaEn = new Date().toISOString();
+            }
+
+        })
+
+        this.listadoArr.forEach( tarea => {
+
+            if( !ids.includes(tarea.id)){
+                this._listado[tarea.id].completadaEn = null;
+            }
+        })
+
     }
 
 }
